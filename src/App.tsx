@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import './App.css'
 
 type DeepTopic = {
@@ -434,6 +435,80 @@ const formulaDictionary = [
   },
 ]
 
+type MockCase = {
+  id: string
+  title: string
+  difficulty: 'Foundation' | 'Interview' | 'Advanced'
+  prompt: string
+  data: string[]
+  expectedCalculations: string[]
+  rubric: { label: string; keywords: string[]; why: string }[]
+  modelAnswer: string
+}
+
+const mockCases: MockCase[] = [
+  {
+    id: 'bestseller-stockout',
+    title: 'Bestseller stockout risk',
+    difficulty: 'Foundation',
+    prompt: 'A navy casual shirt launched 1,000 units. In 2 weeks it sold 650 units. Closing stock is 350 units. Average weekly sales are 325 units. Replenishment lead time is 45 days. What should the merchandiser recommend?',
+    data: ['Opening stock: 1,000', 'Sales: 650 in 2 weeks', 'Closing stock: 350', 'Weekly sales: 325', 'Lead time: 45 days / around 6.4 weeks'],
+    expectedCalculations: ['ST% = 650 ÷ 1,000 × 100 = 65%', 'WOS = 350 ÷ 325 = 1.08 weeks', 'Lead time gap = 6.4 - 1.08 = about 5.3 uncovered weeks'],
+    rubric: [
+      { label: 'Calculates sell-through and WOS', keywords: ['65', 'sell-through', 'st%', '1.08', 'wos'], why: 'A merchandiser must quantify demand speed before recommending action.' },
+      { label: 'Compares WOS with lead time', keywords: ['lead time', '6.4', 'stockout', 'gap'], why: 'The business risk is not just high sales; it is running out before replenishment arrives.' },
+      { label: 'Gives operational actions', keywords: ['replenish', 'po', 'fabric', 'allocate', 'discount', 'd2c', 'myntra'], why: 'Strong answers convert metrics into PO, allocation and pricing actions.' },
+      { label: 'Mentions extra checks', keywords: ['size', 'return', 'margin', 'channel', 'reviews'], why: 'Reordering without size, margin and quality checks can repeat bad demand.' },
+    ],
+    modelAnswer: 'This is a strong seller but an urgent stockout risk. ST% is 65%. WOS is 350 ÷ 325 = 1.08 weeks, while lead time is around 6.4 weeks, so the style will stock out long before replenishment arrives. I would raise an urgent repeat PO after checking fabric and vendor capacity, reduce unnecessary discounting, allocate remaining stock to the highest contribution channels, check size-wise availability, and prepare substitute products. Before final reorder quantity, I would review returns, reviews, margin and channel-wise demand quality.',
+  },
+  {
+    id: 'marketplace-profitability',
+    title: 'Marketplace profitability decision',
+    difficulty: 'Interview',
+    prompt: 'A linen shirt sells 600 units on Myntra at ASP ₹1,399 and 350 units on D2C at ASP ₹1,899. Cost is ₹750. Myntra commission/logistics/return provision totals ₹570 per unit. D2C logistics/return provision totals ₹200 per unit. Which channel should receive the next 500 scarce units and why?',
+    data: ['Myntra ASP: ₹1,399; cost: ₹750; channel costs: ₹570', 'D2C ASP: ₹1,899; cost: ₹750; channel costs: ₹200', 'Scarce stock to allocate: 500 units'],
+    expectedCalculations: ['Myntra contribution = 1,399 - 750 - 570 = ₹79', 'D2C contribution = 1,899 - 750 - 200 = ₹949', 'D2C earns ₹870 more contribution per unit'],
+    rubric: [
+      { label: 'Calculates channel contribution', keywords: ['79', '949', 'contribution', 'asp', 'commission'], why: 'Revenue comparison is misleading without contribution.' },
+      { label: 'Recognizes scarcity allocation', keywords: ['scarce', 'allocate', 'd2c', 'protect', 'margin'], why: 'When stock is scarce, allocation should protect profitable demand.' },
+      { label: 'Avoids one-sided answer', keywords: ['visibility', 'campaign', 'myntra', 'customer acquisition', 'liquidation'], why: 'Marketplace may still matter for discovery, commitments or liquidation.' },
+      { label: 'Mentions further checks', keywords: ['return', 'size', 'velocity', 'season', 'stock'], why: 'Final allocation needs operational checks beyond one margin calculation.' },
+    ],
+    modelAnswer: 'D2C should receive priority because contribution is much higher. Myntra contribution is ₹1,399 - ₹750 - ₹570 = ₹79. D2C contribution is ₹1,899 - ₹750 - ₹200 = ₹949, so D2C gives ₹870 more per unit. I would protect most scarce stock for D2C, but keep a controlled quantity for Myntra only if there is a strategic campaign, visibility benefit or marketplace commitment. I would also check size mix, return rate, weekly velocity and seasonality before final allocation.',
+  },
+  {
+    id: 'erp-reconciliation',
+    title: 'ERP vs marketplace stock mismatch',
+    difficulty: 'Advanced',
+    prompt: 'ERP shows 500 units for a shirt, warehouse count shows 485 and Myntra shows 420. Explain possible causes and the exact reconciliation logic you would use before correcting stock.',
+    data: ['ERP stock: 500', 'Warehouse physical count: 485', 'Myntra available stock: 420', 'Possible hidden movements: reserved orders, damaged returns, failed sync, pending GRN, manual adjustments'],
+    expectedCalculations: ['Expected closing = opening + GRN + saleable returns - sales - damaged - reserved - transfers', 'Difference = system stock - expected closing', 'Available-to-promise = physical - reserved - damaged/blocked - buffer'],
+    rubric: [
+      { label: 'Uses reconciliation equation', keywords: ['opening', 'grn', 'returns', 'sales', 'damaged', 'reserved', 'transfers'], why: 'A strong operator rebuilds stock movement instead of guessing.' },
+      { label: 'Separates physical, ERP and channel stock', keywords: ['physical', 'erp', 'myntra', 'sync', 'mapping'], why: 'Each system can differ for legitimate operational reasons.' },
+      { label: 'Mentions saleable vs unsaleable stock', keywords: ['saleable', 'qc', 'damaged', 'blocked', 'return'], why: 'Returned or damaged stock should not be pushed online blindly.' },
+      { label: 'Gives correction workflow', keywords: ['audit', 'adjust', 'root cause', 'update', 'prevent'], why: 'Interviewers want process discipline, not only cause listing.' },
+    ],
+    modelAnswer: 'I would not directly overwrite stock. I would reconcile stock movement: opening + GRN + saleable returns - sales - damaged - reserved - transfers/manual adjustments = expected closing. Then I would compare expected closing with ERP, physical warehouse count and Myntra stock. Causes may include reserved Myntra orders, damaged returns not blocked correctly, pending GRN, failed inventory sync, SKU mapping issue, cancelled orders not released or manual adjustments. I would separate physical stock from available-to-promise: physical - reserved - damaged/blocked - buffer. After identifying the root cause, I would correct ERP/channel stock and document the adjustment to prevent repeat mismatch.',
+  },
+  {
+    id: 'slow-mover-markdown',
+    title: 'Slow mover markdown decision',
+    difficulty: 'Interview',
+    prompt: 'A printed shirt has opening stock 1,200, sold 120 in 30 days and closing stock 1,080. It is 75 days old. The manager asks whether to immediately discount 50%. What do you recommend?',
+    data: ['Opening stock: 1,200', '30-day sales: 120', 'Closing stock: 1,080', 'Age: 75 days', 'Proposed markdown: 50%'],
+    expectedCalculations: ['ST% = 120 ÷ 1,200 × 100 = 10%', 'Weekly sales = 120 ÷ 4.3 = about 28 units/week', 'WOS = 1,080 ÷ 28 = about 38.6 weeks'],
+    rubric: [
+      { label: 'Calculates poor velocity', keywords: ['10', '38', 'wos', 'slow', 'age'], why: 'The stock is clearly risky, but action still needs diagnosis.' },
+      { label: 'Diagnoses before discounting', keywords: ['traffic', 'conversion', 'price', 'listing', 'image', 'review', 'size'], why: 'Discount is not the first automatic answer.' },
+      { label: 'Suggests staged actions', keywords: ['staged', 'markdown', 'transfer', 'campaign', 'reallocate', 'liquidation'], why: 'Good markdown management protects margin while clearing risk.' },
+      { label: 'Connects stock age and cash', keywords: ['75', 'cash', 'deadstock', 'season', 'warehouse'], why: 'Aging inventory affects cash flow and future buying.' },
+    ],
+    modelAnswer: 'The style is risky: ST% is only 10%, weekly sales are about 28 units and WOS is around 38.6 weeks. At 75 days old, it needs action, but I would not immediately jump to 50% discount. First I would diagnose traffic, conversion, listing images, price vs competitors, size availability, reviews, channel performance and season fit. If product and listing are fine but demand is weak, I would use staged markdowns, transfer stock to stronger channels, include it in marketplace campaigns and set a liquidation plan if it crosses 90 days. I would also avoid repeating similar prints in the next buy.',
+  },
+]
+
 const finalDrill = [
   'Opening stock 1,500; sales after 3 weeks 600; closing 900. Calculate ST%, weekly sales and WOS.',
   'ASP ₹1,599; cost ₹650; marketplace commission 30%; return provision ₹100. Calculate contribution per unit.',
@@ -443,6 +518,39 @@ const finalDrill = [
 ]
 
 function App() {
+  const [activeCaseId, setActiveCaseId] = useState(mockCases[0].id)
+  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
+
+  const activeCase = mockCases.find((item) => item.id === activeCaseId) || mockCases[0]
+  const currentAnswer = answers[activeCase.id] || ''
+  const normalizedAnswer = currentAnswer.toLowerCase()
+
+  const review = useMemo(() => {
+    const rubricResults = activeCase.rubric.map((item) => {
+      const matched = item.keywords.filter((keyword) => normalizedAnswer.includes(keyword.toLowerCase()))
+      return { ...item, matched, passed: matched.length > 0 }
+    })
+    const score = Math.round((rubricResults.filter((item) => item.passed).length / rubricResults.length) * 100)
+    const wordCount = currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).length : 0
+    const calculationSignals = activeCase.expectedCalculations.filter((calc) => {
+      const numbers = calc.match(/\d+(?:\.\d+)?/g) || []
+      return numbers.some((number) => normalizedAnswer.includes(number))
+    })
+    const strengths = rubricResults.filter((item) => item.passed).map((item) => item.label)
+    const gaps = rubricResults.filter((item) => !item.passed).map((item) => item.label)
+    return { rubricResults, score, wordCount, calculationSignals, strengths, gaps }
+  }, [activeCase, currentAnswer, normalizedAnswer])
+
+  function updateAnswer(value: string) {
+    setAnswers((prev) => ({ ...prev, [activeCase.id]: value }))
+    setSubmitted((prev) => ({ ...prev, [activeCase.id]: false }))
+  }
+
+  function submitAnswer() {
+    setSubmitted((prev) => ({ ...prev, [activeCase.id]: true }))
+  }
+
   return (
     <main className="shell">
       <section className="hero">
@@ -455,7 +563,7 @@ function App() {
           </p>
           <div className="hero-actions">
             <a href="#curriculum">Study deep topics</a>
-            <a href="#final-drill" className="secondary">Take mastery drill</a>
+            <a href="#mock-practice" className="secondary">Attend mock interview</a>
           </div>
         </div>
         <aside className="case-card">
@@ -562,6 +670,91 @@ function App() {
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section id="mock-practice" className="section mock-lab">
+        <p className="eyebrow">Interactive mock practice</p>
+        <h2>Attend mock questions and review your answer</h2>
+        <p className="goal">
+          Pick a real merchandising case, write your answer like you are in the interview, then submit it.
+          The trainer checks whether you covered calculations, diagnosis, operational actions and interview-level tradeoffs.
+        </p>
+
+        <div className="mock-layout">
+          <aside className="case-picker">
+            {mockCases.map((item) => (
+              <button
+                key={item.id}
+                className={item.id === activeCase.id ? 'active' : ''}
+                onClick={() => setActiveCaseId(item.id)}
+              >
+                <span>{item.difficulty}</span>
+                <strong>{item.title}</strong>
+              </button>
+            ))}
+          </aside>
+
+          <article className="mock-panel">
+            <div className="mock-header">
+              <span>{activeCase.difficulty}</span>
+              <h3>{activeCase.title}</h3>
+            </div>
+            <p className="mock-prompt">{activeCase.prompt}</p>
+
+            <div className="mock-data">
+              <h5>Given data</h5>
+              <ul>{activeCase.data.map((item) => <li key={item}>{item}</li>)}</ul>
+            </div>
+
+            <label className="answer-box">
+              Your interview answer
+              <textarea
+                value={currentAnswer}
+                onChange={(event) => updateAnswer(event.target.value)}
+                placeholder="Structure your answer: calculate → interpret → diagnose → recommend → mention extra data needed..."
+              />
+            </label>
+
+            <div className="mock-actions">
+              <button onClick={submitAnswer} disabled={currentAnswer.trim().length < 20}>Review my answer</button>
+              <button className="ghost" onClick={() => updateAnswer('')}>Clear answer</button>
+              <span>{review.wordCount} words</span>
+            </div>
+
+            {submitted[activeCase.id] && (
+              <div className="review-panel">
+                <div className="score-card">
+                  <strong>{review.score}%</strong>
+                  <span>{review.score >= 75 ? 'Interview-ready structure' : review.score >= 50 ? 'Good start, add missing reasoning' : 'Needs more calculation and decision logic'}</span>
+                </div>
+
+                <div className="review-grid">
+                  <section>
+                    <h5>Rubric review</h5>
+                    {review.rubricResults.map((item) => (
+                      <div className={item.passed ? 'rubric pass' : 'rubric gap'} key={item.label}>
+                        <b>{item.passed ? '✓' : '○'} {item.label}</b>
+                        <p>{item.why}</p>
+                        <small>{item.passed ? `Detected: ${item.matched.join(', ')}` : `Try mentioning: ${item.keywords.slice(0, 4).join(', ')}`}</small>
+                      </div>
+                    ))}
+                  </section>
+                  <section>
+                    <h5>Expected calculations / logic</h5>
+                    <ul>{activeCase.expectedCalculations.map((item) => <li key={item}>{item}</li>)}</ul>
+                    <h5>Model answer</h5>
+                    <p className="model-answer">{activeCase.modelAnswer}</p>
+                  </section>
+                </div>
+
+                <div className="review-summary">
+                  <p><b>Strengths:</b> {review.strengths.length ? review.strengths.join(' · ') : 'Not enough evidence yet.'}</p>
+                  <p><b>Improve next:</b> {review.gaps.length ? review.gaps.join(' · ') : 'Now practice making the answer more concise and interview-natural.'}</p>
+                </div>
+              </div>
+            )}
+          </article>
         </div>
       </section>
 
