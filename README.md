@@ -13,6 +13,11 @@ Focus areas:
 - Assortment planning, replenishment, OTB and forecasting
 - QA concepts: 4-point fabric system, AQL, shrinkage and garment defects
 - Interview reasoning drills and business tradeoffs
+- Source-backed learning references from Shopify, Retail Dogma, Retalon, QIMA, LOGIC ERP, Textile Blog and The Bear House
+
+Source map:
+
+- `docs/source-map.md`
 
 ## Run locally
 
