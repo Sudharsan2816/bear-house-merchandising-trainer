@@ -509,6 +509,709 @@ const mockCases: MockCase[] = [
   },
 ]
 
+
+type TopicQuestion = {
+  question: string
+  answerGuide: string
+}
+
+type TopicQuestionGroup = {
+  id: string
+  topic: string
+  questions: TopicQuestion[]
+}
+
+const topicQuestionBank: TopicQuestionGroup[] = [
+  {
+    id: 'fundamentals',
+    topic: 'Retail fundamentals and omnichannel retail',
+    questions: [
+      {
+        question: 'Explain the full product journey from design idea to customer delivery.',
+        answerGuide: 'Mention range planning, sourcing, costing, production, GRN, listing, allocation, order fulfillment, returns and ERP updates.',
+      },
+      {
+        question: 'Why is inventory called cash in physical form?',
+        answerGuide: 'Explain cash blockage, stock aging, markdown risk, warehouse space and reinvestment into fresh season stock.',
+      },
+      {
+        question: 'How is D2C different from Myntra, Ajio, Amazon and offline retail?',
+        answerGuide: 'Compare margin, commission, traffic, returns, customer data, discount pressure and operational control.',
+      },
+      {
+        question: 'A style sells well on D2C but poorly on Amazon. What will you check?',
+        answerGuide: 'Check price, images, reviews, search visibility, customer intent, size availability, competitors, delivery promise and returns.',
+      },
+      {
+        question: 'Why is total sales not enough to judge a product?',
+        answerGuide: 'Break sales by margin, ASP, discount, return rate, channel, size, stock availability and time period.',
+      },
+      {
+        question: 'What is the difference between style, SKU, option and barcode?',
+        answerGuide: 'Define hierarchy: style/design, option/color, SKU=size-color saleable unit, barcode/scannable identifier.',
+      },
+      {
+        question: 'How can a brand have stock but still lose sales?',
+        answerGuide: 'Explain broken sizes, wrong channel allocation, blocked stock, sync delays and unavailable key sizes.',
+      },
+      {
+        question: 'What does a merchandiser check in a daily sales report?',
+        answerGuide: 'Mention sales, ST%, WOS, stock age, channel split, margin, returns, size availability and action flags.',
+      },
+      {
+        question: 'Why are returns especially important in fashion?',
+        answerGuide: 'Explain fit issues, reverse logistics, damaged returns, refund delay, margin erosion and resale QC.',
+      },
+      {
+        question: 'How do marketplace campaigns affect merchandising decisions?',
+        answerGuide: 'Mention uplift, discount funding, visibility, stock reservation, margin impact and post-event sell-through.',
+      },
+      {
+        question: 'What is stock aging and why does it matter?',
+        answerGuide: 'Define age buckets and connect old stock with markdowns, cash blockage, season mismatch and deadstock risk.',
+      },
+      {
+        question: 'How should a merchandiser think about launch quantities?',
+        answerGuide: 'Balance demand forecast, category history, size curve, lead time, fabric MOQ, budget and risk appetite.',
+      },
+      {
+        question: 'Why should scarce stock not be split equally across channels?',
+        answerGuide: 'Allocation should reflect contribution, velocity, campaign commitments, customer fit and strategic priority.',
+      },
+      {
+        question: 'What does “saleable inventory” mean?',
+        answerGuide: 'Explain stock available after excluding damaged, reserved, QC hold, returns pending inspection and safety buffer.',
+      },
+      {
+        question: 'How can customer reviews affect buying decisions?',
+        answerGuide: 'Reviews reveal fit, fabric, shrinkage, color mismatch and listing issues that affect repeat orders.',
+      },
+      {
+        question: 'What are signs of a product-market fit issue?',
+        answerGuide: 'Low traffic conversion, weak ST%, high WOS, poor reviews, high returns and competitor outperformance.',
+      },
+      {
+        question: 'What are signs of an operations issue rather than a product issue?',
+        answerGuide: 'Stock mismatch, listing delay, wrong size mapping, sync failure, late GRN or warehouse picking errors.',
+      },
+      {
+        question: 'Why does warehouse capacity matter to merchandising?',
+        answerGuide: 'Old stock consumes space, slows operations and blocks new-season inventory flow.',
+      },
+      {
+        question: 'What is the difference between gross revenue and profitable sales?',
+        answerGuide: 'Gross revenue ignores discount, cost, commission, logistics, returns and contribution.',
+      },
+      {
+        question: 'Give a strong interview definition of merchandising.',
+        answerGuide: 'Say merchandising plans, buys, allocates and controls inventory to maximize profitable sales while reducing stockout, deadstock and margin risk.',
+      },
+    ],
+  },
+  {
+    id: 'retail-math',
+    topic: 'Retail math mastery',
+    questions: [
+      {
+        question: 'Calculate ST% if opening stock is 800 and sales are 240.',
+        answerGuide: 'ST% = 240 ÷ 800 × 100 = 30%. Then interpret using period, plan, discount and returns.',
+      },
+      {
+        question: 'Calculate WOS if closing stock is 560 and weekly sales are 60.',
+        answerGuide: 'WOS = 560 ÷ 60 = 9.33 weeks. Compare with lead time and season remaining.',
+      },
+      {
+        question: 'What is the difference between gross ST% and net ST%?',
+        answerGuide: 'Gross uses sold units; net subtracts returns/cancellations to reflect quality of demand.',
+      },
+      {
+        question: 'Why is ST% meaningless without time period?',
+        answerGuide: '30% in one week is strong; 30% in 90 days may be weak. Time creates velocity context.',
+      },
+      {
+        question: 'Break down the WOS formula parameter by parameter.',
+        answerGuide: 'Saleable closing stock divided by average weekly sales; exclude blocked/damaged/reserved stock.',
+      },
+      {
+        question: 'Calculate contribution: ASP ₹1,599, cost ₹650, commission 30%, return provision ₹100.',
+        answerGuide: 'Commission = ₹479.70. Contribution = 1,599 - 650 - 479.70 - 100 = ₹369.30 before other costs.',
+      },
+      {
+        question: 'What is IMU and why can it mislead?',
+        answerGuide: 'IMU = (MRP-cost)/MRP. It ignores markdowns, commission, logistics, returns and actual ASP.',
+      },
+      {
+        question: 'Calculate markdown from ₹2,499 to ₹1,499.',
+        answerGuide: 'Markdown % = (2,499-1,499)/2,499 = about 40%.',
+      },
+      {
+        question: 'What is maintained margin?',
+        answerGuide: 'Actual margin retained after markdowns and real selling conditions, closer to business reality than IMU.',
+      },
+      {
+        question: 'What is GMROI?',
+        answerGuide: 'Gross margin divided by average inventory cost; shows margin generated per rupee invested in inventory.',
+      },
+      {
+        question: 'Why use weighted ASP instead of simple average ASP?',
+        answerGuide: 'High-volume SKUs should influence ASP more than low-volume SKUs; use SUMPRODUCT units × ASP / total units.',
+      },
+      {
+        question: 'What does stock-to-sales ratio indicate?',
+        answerGuide: 'Whether inventory level is balanced with sales; high can signal overstock, low can signal stockout risk.',
+      },
+      {
+        question: 'How do returns affect retail math?',
+        answerGuide: 'They reduce net sales, inflate logistics cost, reduce contribution and may reduce saleable stock.',
+      },
+      {
+        question: 'A product has high ST% but negative contribution. What do you do?',
+        answerGuide: 'Do not call it successful. Diagnose discount/channel cost and consider price, allocation or stopping repeat buys.',
+      },
+      {
+        question: 'How do you calculate weekly sales from 30-day sales?',
+        answerGuide: 'Divide by about 4.3 weeks, not exactly 4, for more accurate WOS.',
+      },
+      {
+        question: 'What is the danger of average WOS?',
+        answerGuide: 'Average can hide size-level stockouts and overstock. Calculate by size/channel for action.',
+      },
+      {
+        question: 'When is low WOS good vs risky?',
+        answerGuide: 'Good if replenishment is near or season ending; risky if lead time is longer than WOS.',
+      },
+      {
+        question: 'How do you decide if 45% sell-through is good?',
+        answerGuide: 'Compare with time period, category plan, margin, discount, returns, season and stock availability.',
+      },
+      {
+        question: 'What should every retail metric end with?',
+        answerGuide: 'A decision: replenish, markdown, reallocate, hold, diagnose, block or stop buying.',
+      },
+      {
+        question: 'Explain why sales volume and profit can move in opposite directions.',
+        answerGuide: 'Discounts and channel costs can increase units but reduce contribution per unit.',
+      },
+    ],
+  },
+  {
+    id: 'excel',
+    topic: 'Excel for merchandising',
+    questions: [
+      {
+        question: 'Write a SUMIFS use case for daily sales.',
+        answerGuide: 'Use SUMIFS to total units by SKU, channel and date range from raw sales data.',
+      },
+      {
+        question: 'What does XLOOKUP solve in a merchandising file?',
+        answerGuide: 'It pulls category, cost, MRP, vendor or launch date from SKU master into sales/stock files.',
+      },
+      {
+        question: 'When would you use INDEX MATCH instead of XLOOKUP?',
+        answerGuide: 'For older Excel versions or flexible row/column matching across tables.',
+      },
+      {
+        question: 'Create an IF flag for stockout risk.',
+        answerGuide: 'Example: IF(WOS<LeadTimeWeeks,"Stockout risk","Monitor").',
+      },
+      {
+        question: 'How do you calculate weighted ASP in Excel?',
+        answerGuide: 'SUMPRODUCT(UnitsRange, ASPRange)/SUM(UnitsRange).',
+      },
+      {
+        question: 'What should a merchandising pivot table include?',
+        answerGuide: 'Rows SKU/category/size, columns channel/week, values sales, stock, returns, contribution and WOS.',
+      },
+      {
+        question: 'How do you clean inconsistent SKU codes?',
+        answerGuide: 'Trim spaces, standardize hyphens/case, remove hidden characters and validate against SKU master.',
+      },
+      {
+        question: 'How do you find missing SKUs in master data?',
+        answerGuide: 'Use XLOOKUP with “Missing” default or conditional formatting on lookup errors.',
+      },
+      {
+        question: 'What is an inventory reconciliation Excel equation?',
+        answerGuide: 'Opening + GRN + saleable returns - sales - damaged - reserved - transfers = expected closing.',
+      },
+      {
+        question: 'How do you validate a report before sending it?',
+        answerGuide: 'Tie pivot totals to raw data totals, check duplicates, missing costs, date filters and formula ranges.',
+      },
+      {
+        question: 'What dashboard KPIs should be visible?',
+        answerGuide: 'Revenue, units, ST%, WOS, aging, returns, margin, contribution, stockout risk and markdown risk.',
+      },
+      {
+        question: 'How can Excel help identify broken sizes?',
+        answerGuide: 'Compare sales mix % vs stock mix % by size and flag large variance.',
+      },
+      {
+        question: 'What is the danger of duplicate SKU rows?',
+        answerGuide: 'They can double-count sales/stock or cause wrong lookup results.',
+      },
+      {
+        question: 'How do you track aging inventory in Excel?',
+        answerGuide: 'Use days since GRN/launch and bucket into 0-30, 31-60, 61-90, 90+.',
+      },
+      {
+        question: 'How do you build an action flag?',
+        answerGuide: 'Combine ST%, WOS, age, margin and returns into IF/IFS logic.',
+      },
+      {
+        question: 'What is a common SUMIFS mistake?',
+        answerGuide: 'Criteria range and sum range not same size, wrong date filters, or inconsistent SKU text.',
+      },
+      {
+        question: 'Why should cost be in the SKU master?',
+        answerGuide: 'Cost is needed for margin/contribution and should have a single source of truth.',
+      },
+      {
+        question: 'How do you compare ERP and marketplace stock?',
+        answerGuide: 'Create SKU-level table with ERP, channel, physical, reserved, damaged and variance columns.',
+      },
+      {
+        question: 'What Excel output is useful in an interview task?',
+        answerGuide: 'A clean summary table with formulas, action flags and concise recommendations.',
+      },
+      {
+        question: 'How would you explain Excel proficiency to an interviewer?',
+        answerGuide: 'Say you can clean raw sales/stock data, reconcile inventory, calculate KPIs and build decision dashboards.',
+      },
+    ],
+  },
+  {
+    id: 'inventory',
+    topic: 'Inventory and assortment planning',
+    questions: [
+      {
+        question: 'Define breadth and depth with examples.',
+        answerGuide: 'Breadth = number of styles/options; depth = units per style/size. Balance choice vs availability.',
+      },
+      {
+        question: 'Why is size curve planning critical?',
+        answerGuide: 'Wrong size ratios create stockouts in demand sizes and overstock in weak sizes.',
+      },
+      {
+        question: 'How do you decide initial buy quantity?',
+        answerGuide: 'Use history, forecast, category role, price, size curve, margin, lead time and risk.',
+      },
+      {
+        question: 'What is SKU rationalization?',
+        answerGuide: 'Reducing weak, duplicate or low-productivity SKUs to focus inventory on better performers.',
+      },
+      {
+        question: 'How do you identify deadstock risk?',
+        answerGuide: 'Low ST%, high WOS, high age, weak reviews, poor conversion and season ending.',
+      },
+      {
+        question: 'What is replenishment logic?',
+        answerGuide: 'Repeat buy based on velocity, WOS, lead time, margin, returns, season and stock quality.',
+      },
+      {
+        question: 'Why not replenish every fast seller?',
+        answerGuide: 'Fast sales may be discount-driven, one-time campaign-based, high-return or seasonal.',
+      },
+      {
+        question: 'How do you handle broken size inventory?',
+        answerGuide: 'Analyze size-level stock/sales, transfer stock, adjust future size ratio and avoid overbuying weak sizes.',
+      },
+      {
+        question: 'What is safety stock?',
+        answerGuide: 'Extra stock kept to absorb demand variation and replenishment delays.',
+      },
+      {
+        question: 'How does lead time affect buying?',
+        answerGuide: 'Long lead time requires earlier reorder decisions and stronger forecasting discipline.',
+      },
+      {
+        question: 'What is option planning?',
+        answerGuide: 'Planning color/fabric/fit variations inside a style family.',
+      },
+      {
+        question: 'When should you discontinue a SKU?',
+        answerGuide: 'Consistent low productivity, high returns, poor reviews, duplicate role or margin weakness.',
+      },
+      {
+        question: 'How does MOQ affect assortment?',
+        answerGuide: 'Minimum order quantity may force deeper buys; avoid too many options if MOQ creates overstock.',
+      },
+      {
+        question: 'How do you use past sales in assortment planning?',
+        answerGuide: 'Identify winning categories/colors/fits/sizes, but adjust for season, trend and stock availability.',
+      },
+      {
+        question: 'What is the danger of too much breadth?',
+        answerGuide: 'Tiny depth per style, stockouts, operational complexity and weak read on demand.',
+      },
+      {
+        question: 'What is the danger of too much depth?',
+        answerGuide: 'Large cash blockage if demand is wrong and higher markdown risk.',
+      },
+      {
+        question: 'How do you plan newness?',
+        answerGuide: 'Balance proven basics with controlled experiments; test before scaling unproven trends.',
+      },
+      {
+        question: 'How do returns influence assortment?',
+        answerGuide: 'High-return fits/fabrics should be corrected or reduced in future buys.',
+      },
+      {
+        question: 'How do you prioritize replenishment?',
+        answerGuide: 'Prioritize high contribution, low return, high velocity, healthy size mix and long remaining season.',
+      },
+      {
+        question: 'What is a strong assortment interview answer?',
+        answerGuide: 'Mention customer, category role, price architecture, size curve, channel, margin, lead time and risk.',
+      },
+    ],
+  },
+  {
+    id: 'otb',
+    topic: 'OTB, forecasting and markdowns',
+    questions: [
+      {
+        question: 'Write the OTB formula.',
+        answerGuide: 'OTB = planned sales + planned ending inventory - beginning inventory - on-order.',
+      },
+      {
+        question: 'Why does on-order reduce OTB?',
+        answerGuide: 'It is already committed inventory even if not yet physically received.',
+      },
+      {
+        question: 'How do actual sales affect OTB?',
+        answerGuide: 'Overperformance may create buying room; underperformance should reduce/delay buys.',
+      },
+      {
+        question: 'What is planned ending inventory?',
+        answerGuide: 'Target closing stock needed to support next period without overstocking.',
+      },
+      {
+        question: 'What is dynamic reforecasting?',
+        answerGuide: 'Updating sales and inventory plans based on actual performance and new information.',
+      },
+      {
+        question: 'How do markdowns affect OTB?',
+        answerGuide: 'Markdowns can clear units and recover cash but reduce margin and change future inventory needs.',
+      },
+      {
+        question: 'How do you forecast weekly sales?',
+        answerGuide: 'Use baseline sales, seasonality, campaigns, price changes and stock availability.',
+      },
+      {
+        question: 'Why should stockout periods be adjusted in forecasts?',
+        answerGuide: 'Low sales during stockout reflect lack of supply, not lack of demand.',
+      },
+      {
+        question: 'What is campaign uplift?',
+        answerGuide: 'Expected extra sales due to marketplace event, ads, email, influencer or discount.',
+      },
+      {
+        question: 'How do you avoid overforecasting?',
+        answerGuide: 'Separate one-time spikes from repeatable demand and check conversion, returns and stock depth.',
+      },
+      {
+        question: 'When is markdown necessary?',
+        answerGuide: 'Aged stock, high WOS, season end, poor conversion after diagnosis or cash/space pressure.',
+      },
+      {
+        question: 'Why use staged markdowns?',
+        answerGuide: 'To test elasticity and protect margin before deep liquidation.',
+      },
+      {
+        question: 'What data is needed before a markdown decision?',
+        answerGuide: 'ST%, WOS, age, margin, traffic, conversion, reviews, size mix, competitor price and season.',
+      },
+      {
+        question: 'How do you simulate markdown impact?',
+        answerGuide: 'Create scenario table with discount, ASP, expected units, contribution/unit and ending stock.',
+      },
+      {
+        question: 'What is markdown elasticity?',
+        answerGuide: 'How much unit demand increases when price decreases.',
+      },
+      {
+        question: 'What is the risk of discounting fresh stock?',
+        answerGuide: 'Margin loss, customer price training and unnecessary cannibalization.',
+      },
+      {
+        question: 'How does OTB control cash flow?',
+        answerGuide: 'It prevents buying more when existing and on-order stock already cover planned sales.',
+      },
+      {
+        question: 'What is a negative OTB signal?',
+        answerGuide: 'Inventory commitments exceed plan; slow buying, cancel/delay POs or liquidate old stock.',
+      },
+      {
+        question: 'How do you present an OTB recommendation?',
+        answerGuide: 'Show plan vs actual, revised forecast, stock cover, on-order, risk and requested buy amount.',
+      },
+      {
+        question: 'What is a strong markdown interview answer?',
+        answerGuide: 'Diagnose first, quantify risk, stage discounts, protect margin and prevent repeat buying mistakes.',
+      },
+    ],
+  },
+  {
+    id: 'erp',
+    topic: 'ERP and omnichannel operations',
+    questions: [
+      {
+        question: 'What does ERP do in fashion retail?',
+        answerGuide: 'Connects procurement, production, warehouse, stock, sales, returns and reporting.',
+      },
+      {
+        question: 'What is BOM?',
+        answerGuide: 'Bill of Materials: fabric, trims, labels, packaging and consumption per garment.',
+      },
+      {
+        question: 'Why can wrong BOM damage merchandising?',
+        answerGuide: 'Wrong consumption causes cost errors, procurement shortage/excess and production delay.',
+      },
+      {
+        question: 'What is a PO?',
+        answerGuide: 'Purchase order confirming vendor, quantity, cost, delivery date and terms.',
+      },
+      {
+        question: 'What is GRN?',
+        answerGuide: 'Goods Received Note when warehouse receives stock and ERP records inward movement.',
+      },
+      {
+        question: 'What is reserved stock?',
+        answerGuide: 'Stock blocked for orders not yet fully shipped/settled.',
+      },
+      {
+        question: 'What is ATP?',
+        answerGuide: 'Available-to-promise: stock safe to expose to sales channels.',
+      },
+      {
+        question: 'Write ATP formula.',
+        answerGuide: 'Physical stock - reserved - damaged/blocked - safety buffer.',
+      },
+      {
+        question: 'Why do ERP and marketplace stock differ?',
+        answerGuide: 'Reserved orders, sync delay, failed upload, returns, damaged stock, mapping or manual adjustment.',
+      },
+      {
+        question: 'How do you reconcile stock mismatch?',
+        answerGuide: 'Rebuild opening + inward + returns - sales - damaged - reserved - transfers.',
+      },
+      {
+        question: 'What is warehouse bin logic?',
+        answerGuide: 'Location mapping so pickers can find and count the correct SKU/size.',
+      },
+      {
+        question: 'How do returns enter ERP?',
+        answerGuide: 'Returned units need QC classification: saleable, damaged, repair, blocked or vendor claim.',
+      },
+      {
+        question: 'What causes overselling?',
+        answerGuide: 'Publishing raw stock, sync delay, no buffer, wrong reservations or duplicate channel allocation.',
+      },
+      {
+        question: 'How can ERP help replenishment?',
+        answerGuide: 'It gives stock, sales, WOS, pending PO and lead-time visibility.',
+      },
+      {
+        question: 'Why is SKU mapping important?',
+        answerGuide: 'Wrong mapping can sell wrong size/color or show incorrect stock online.',
+      },
+      {
+        question: 'What should be checked before correcting stock?',
+        answerGuide: 'Transaction history, physical count, reserved orders, returns QC, sync logs and adjustments.',
+      },
+      {
+        question: 'How does production tracking matter?',
+        answerGuide: 'It predicts whether replenishment arrives before stockout.',
+      },
+      {
+        question: 'What is manual adjustment risk?',
+        answerGuide: 'It fixes visible number but can hide root cause if not documented.',
+      },
+      {
+        question: 'What ERP report helps merchandisers daily?',
+        answerGuide: 'SKU-wise sales-stock-aging-return-channel report with pending PO and ATP.',
+      },
+      {
+        question: 'What is a strong ERP interview answer?',
+        answerGuide: 'Explain document flow: BOM → PO → production → GRN → QC → warehouse → channel sync → sales/returns.',
+      },
+    ],
+  },
+  {
+    id: 'qa',
+    topic: 'Quality assurance',
+    questions: [
+      {
+        question: 'What is AQL?',
+        answerGuide: 'Acceptable Quality Limit sampling method used to accept/reject production batches based on defects.',
+      },
+      {
+        question: 'Explain AQL in business language.',
+        answerGuide: 'It controls quality risk without checking every piece by defining acceptable defect limits.',
+      },
+      {
+        question: 'What is the 4-point fabric inspection system?',
+        answerGuide: 'Fabric defects are assigned penalty points based on severity/length to judge roll quality.',
+      },
+      {
+        question: 'Why does shrinkage matter?',
+        answerGuide: 'Shrinkage changes fit after wash, causing returns, bad reviews and blocked stock.',
+      },
+      {
+        question: 'What are common fabric defects?',
+        answerGuide: 'Holes, stains, shade variation, slubs, weaving defects, printing defects and contamination.',
+      },
+      {
+        question: 'What are common garment defects?',
+        answerGuide: 'Stitching issues, measurement deviation, loose buttons, broken seams, poor finishing and stains.',
+      },
+      {
+        question: 'How do QA issues affect merchandising?',
+        answerGuide: 'They increase returns, reduce saleable stock, delay launches and influence reorder decisions.',
+      },
+      {
+        question: 'What should you do if return rate doubles category norm?',
+        answerGuide: 'Analyze reasons by SKU/batch/size, block risky stock, involve QA/vendor and pause replenishment.',
+      },
+      {
+        question: 'How do you track defect data?',
+        answerGuide: 'Pivot returns/defects by SKU, batch, vendor, size and reason.',
+      },
+      {
+        question: 'What is measurement tolerance?',
+        answerGuide: 'Allowed difference from size spec; protects fit consistency.',
+      },
+      {
+        question: 'Why should returned stock go through QC?',
+        answerGuide: 'Not every returned unit is saleable; damaged pieces must be blocked or repaired.',
+      },
+      {
+        question: 'How do fabric lots matter?',
+        answerGuide: 'A defect can be batch-specific; identify lot before blaming entire style.',
+      },
+      {
+        question: 'What QA data is needed before repeating a style?',
+        answerGuide: 'Return rate, defect reasons, wash tests, shrinkage, vendor performance and customer reviews.',
+      },
+      {
+        question: 'How does poor QA affect marketplace performance?',
+        answerGuide: 'Bad reviews, higher returns, penalties and lower conversion.',
+      },
+      {
+        question: 'What is vendor accountability?',
+        answerGuide: 'Using defect evidence to claim, reject, repair or improve future production.',
+      },
+      {
+        question: 'When should stock be blocked?',
+        answerGuide: 'When defects, wrong labeling, shrinkage, unsafe quality or wrong SKU mapping make it unsaleable.',
+      },
+      {
+        question: 'How do you explain 4-point system in an interview?',
+        answerGuide: 'Say defects get points; total points determine whether fabric roll is acceptable for production.',
+      },
+      {
+        question: 'How do you connect QA to margin?',
+        answerGuide: 'Returns, repair, markdown, write-off and reverse logistics reduce contribution.',
+      },
+      {
+        question: 'Why is pre-production testing important?',
+        answerGuide: 'Catches fabric/shrinkage/construction issues before full production risk.',
+      },
+      {
+        question: 'What is a strong QA interview answer?',
+        answerGuide: 'Define method, connect to defects, returns, stock blocking, vendor action and reorder decisions.',
+      },
+    ],
+  },
+  {
+    id: 'strategy',
+    topic: 'Business and strategic thinking',
+    questions: [
+      {
+        question: 'Why is highest sales not always best?',
+        answerGuide: 'High sales can come from deep discounts, high returns or low contribution.',
+      },
+      {
+        question: 'How do you compare margin vs volume?',
+        answerGuide: 'Calculate contribution/unit and total contribution, then consider stock age and strategic goals.',
+      },
+      {
+        question: 'When should stock be protected for D2C?',
+        answerGuide: 'When D2C has higher contribution, limited stock, strong brand fit and customer data value.',
+      },
+      {
+        question: 'When should marketplace liquidation be used?',
+        answerGuide: 'For aged/high-WOS stock, season end, cash recovery or warehouse space pressure.',
+      },
+      {
+        question: 'How do you decide pricing?',
+        answerGuide: 'Use cost, target margin, competitor price, brand position, elasticity and channel economics.',
+      },
+      {
+        question: 'What is price perception risk?',
+        answerGuide: 'Customers learn to wait for discounts if brand discounts too often.',
+      },
+      {
+        question: 'How do you handle a high-volume low-margin SKU?',
+        answerGuide: 'Check strategic role; improve price/cost/channel mix or reduce future buy if unprofitable.',
+      },
+      {
+        question: 'How do you handle a low-volume high-margin SKU?',
+        answerGuide: 'Improve visibility/listing/channel fit before markdowning; check if niche premium role is acceptable.',
+      },
+      {
+        question: 'What is inventory liquidation?',
+        answerGuide: 'Selling slow/old stock quickly, often with markdown, to recover cash and space.',
+      },
+      {
+        question: 'What is cannibalization?',
+        answerGuide: 'One product’s sales reduce another similar product’s sales.',
+      },
+      {
+        question: 'How do you allocate scarce inventory?',
+        answerGuide: 'Prioritize contribution, velocity, commitments, customer fit, size availability and strategic channel.',
+      },
+      {
+        question: 'How do you defend not discounting a bestseller?',
+        answerGuide: 'Low WOS, strong demand, margin protection, delayed replenishment and brand value.',
+      },
+      {
+        question: 'How do you defend discounting old stock?',
+        answerGuide: 'High age/WOS, season end, cash recovery, warehouse pressure and weak demand after diagnosis.',
+      },
+      {
+        question: 'What is customer acquisition tradeoff?',
+        answerGuide: 'A low-margin sale may be acceptable if it brings valuable new customers, but must be measured.',
+      },
+      {
+        question: 'How do operational constraints affect strategy?',
+        answerGuide: 'Warehouse capacity, production lead time, ERP accuracy and vendor capacity limit ideal decisions.',
+      },
+      {
+        question: 'What is a good executive summary format?',
+        answerGuide: 'State issue, key numbers, risk, recommendation, expected impact and next checks.',
+      },
+      {
+        question: 'How do you avoid repeating past mistakes?',
+        answerGuide: 'Feed learnings into next assortment: size curve, fabric, vendor, price, channel and buy depth.',
+      },
+      {
+        question: 'How do you balance brand and liquidation?',
+        answerGuide: 'Liquidate discreetly/staged while protecting core bestsellers and price architecture.',
+      },
+      {
+        question: 'What is an owner mindset in merchandising?',
+        answerGuide: 'Care about cash, margin, customer experience, stock health and future buying flexibility.',
+      },
+      {
+        question: 'What is a strong strategic interview answer?',
+        answerGuide: 'Use numbers, tradeoffs, risks, action plan and what extra data would change the decision.',
+      },
+    ],
+  },
+]
+
 const finalDrill = [
   'Opening stock 1,500; sales after 3 weeks 600; closing 900. Calculate ST%, weekly sales and WOS.',
   'ASP ₹1,599; cost ₹650; marketplace commission 30%; return provision ₹100. Calculate contribution per unit.',
@@ -519,10 +1222,12 @@ const finalDrill = [
 
 function App() {
   const [activeCaseId, setActiveCaseId] = useState(mockCases[0].id)
+  const [activeQuestionTopicId, setActiveQuestionTopicId] = useState(topicQuestionBank[0].id)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
 
   const activeCase = mockCases.find((item) => item.id === activeCaseId) || mockCases[0]
+  const activeQuestionTopic = topicQuestionBank.find((item) => item.id === activeQuestionTopicId) || topicQuestionBank[0]
   const currentAnswer = answers[activeCase.id] || ''
   const normalizedAnswer = currentAnswer.toLowerCase()
 
@@ -563,6 +1268,7 @@ function App() {
           </p>
           <div className="hero-actions">
             <a href="#curriculum">Study deep topics</a>
+            <a href="#question-bank" className="secondary">Drill 160+ questions</a>
             <a href="#mock-practice" className="secondary">Attend mock interview</a>
           </div>
         </div>
@@ -577,7 +1283,7 @@ function App() {
         <div><strong>8</strong><span>phases</span></div>
         <div><strong>15</strong><span>deep lessons</span></div>
         <div><strong>60+</strong><span>parameters decoded</span></div>
-        <div><strong>100%</strong><span>scenario based</span></div>
+        <div><strong>160+</strong><span>topic questions</span></div>
       </section>
 
       <section className="section warning">
@@ -670,6 +1376,50 @@ function App() {
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section id="question-bank" className="section question-bank">
+        <p className="eyebrow">End-to-end question bank</p>
+        <h2>20 confidence-building questions per concept</h2>
+        <p className="goal">
+          Use this as your interview drilling room. Pick a concept, attempt each question out loud or in writing,
+          then open the answer guide to check whether your response covered the correct parameters, calculations and business reasoning.
+        </p>
+        <div className="question-bank-layout">
+          <aside className="topic-picker">
+            {topicQuestionBank.map((group) => (
+              <button
+                key={group.id}
+                className={group.id === activeQuestionTopic.id ? 'active' : ''}
+                onClick={() => setActiveQuestionTopicId(group.id)}
+              >
+                <strong>{group.topic}</strong>
+                <span>{group.questions.length} questions</span>
+              </button>
+            ))}
+          </aside>
+          <article className="question-list">
+            <div className="question-list-header">
+              <div>
+                <p className="eyebrow">Selected topic</p>
+                <h3>{activeQuestionTopic.topic}</h3>
+              </div>
+              <strong>{activeQuestionTopic.questions.length}/20</strong>
+            </div>
+            {activeQuestionTopic.questions.map((item, index) => (
+              <details className="drill-question" key={item.question}>
+                <summary>
+                  <span>Q{index + 1}</span>
+                  {item.question}
+                </summary>
+                <div>
+                  <h5>Answer guide</h5>
+                  <p>{item.answerGuide}</p>
+                </div>
+              </details>
+            ))}
+          </article>
         </div>
       </section>
 
