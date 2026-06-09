@@ -2,6 +2,8 @@
 
 A practical React/Vite training site for The Bear House Buying & Merchandising internship preparation.
 
+This is a product-style frontend project. It is not a core AI/data engineering showcase, but it demonstrates domain research, structured learning design, and React app delivery for a real retail operations use case.
+
 Focus areas:
 
 - Fashion retail business flow
@@ -35,3 +37,15 @@ npm run build
 ## Deploy
 
 The project is Vercel-ready. Build command: `npm run build`. Output directory: `dist`.
+
+## Portfolio Positioning
+
+Use this repo as a secondary product-building signal, not as one of the first AI/data pinned repos.
+
+Recommended description:
+
+`React/Vite merchandising trainer covering retail math, SKU planning, inventory reconciliation, omnichannel operations, and interview reasoning drills.`
+
+Recommended topics:
+
+`react`, `typescript`, `vite`, `retail`, `inventory-management`, `merchandising`, `frontend`, `learning-platform`
